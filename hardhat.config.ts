@@ -63,9 +63,10 @@ const config: HardhatUserConfig = {
   },
   networks: {
     hardhat: {
+      chainId: 84531,
       forking: {
-        url: process.env.ARBITRUM_RPC || '',
-        blockNumber: 113767147,
+        url: process.env.BASE_GOERLI_RPC,
+        blockNumber: 7769354,
       },
     },
     arbitrum: {

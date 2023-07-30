@@ -8,11 +8,10 @@ const FACTORY_TESTNET = '';
 const ROUTER_TESTNET = '';
 
 async function main() {
-  const chainId = ethers.provider.network.chainId;
-  const WETH = TOKENS.WETH[chainId];
-
-  await deployFactory(FEE_RECEIVER);
-
+  // await ethers.provider.ready;
+  // const chainId = ethers.provider.network.chainId;
+  // const WETH = TOKENS.WETH[chainId];
+  // await deployFactory(FEE_RECEIVER);
   // await deployRouter(FACTORY_TESTNET, WETH);
 }
 
