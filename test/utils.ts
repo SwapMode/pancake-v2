@@ -2,8 +2,26 @@ import { BigNumber, Contract, ethers } from 'ethers';
 import { parseEther } from 'ethers/lib/utils';
 import * as helpers from '@nomicfoundation/hardhat-network-helpers';
 import * as erc20 from '../node_modules/@openzeppelin/contracts/build/contracts/ERC20.json';
+import { MAX_UINT256 } from './constants';
 
 export const keccak256 = ethers.utils.solidityKeccak256;
+
+export function sortTokens(tokens: string[]) {
+  return tokens.sort();
+}
+
+export async function getBlockTime(provider) {
+  const block = await provider.getBlock(await provider.getBlockNumber());
+
+  return block.timestamp;
+}
+
+export async function approveTokens(tokens: string[], spender: string, signer) {
+  for (const token of tokens) {
+    const tk = getERC20(token, signer);
+    await tk.approve(spender, MAX_UINT256);
+  }
+}
 
 export const giveTokens = async (
   tokenAddress: string,
