@@ -3,7 +3,7 @@ import { FEE_RECEIVER } from '../../scripts/deploy';
 import { deployFactory, deployMockToken, deployRouter, deployToken } from '../../scripts/utils/deploy.utils';
 import { TOKENS } from '../../scripts/data/token';
 import { createPool } from '../../scripts/utils/pool.utils';
-import { parseUnits } from 'ethers/lib/utils';
+import { formatUnits, parseUnits } from 'ethers/lib/utils';
 import { approveTokens, getBlockTime, getERC20 } from '../utils';
 import { Contract } from 'ethers';
 
@@ -23,7 +23,11 @@ export async function awesomeFixture() {
   const chiliCheeseDog = await deployToken('ChiliCheeseDogToken', signer);
 
   console.log('Creating initial pool..');
-  const { token0, token1, pair } = await createPool(factory.address, chiliCheeseDog.address, mockUsdc.address, signer);
+  const {
+    token0,
+    token1,
+    pair: pairAddress,
+  } = await createPool(factory.address, chiliCheeseDog.address, mockUsdc.address, signer);
   console.log('Pair ChiliCheeseDog-USDC created');
 
   await approveTokens([token0, token1], router.address, signer);
@@ -48,6 +52,16 @@ export async function awesomeFixture() {
     (await getBlockTime(ethers.provider)) + 5
   );
   console.log('Initial liquidity added.');
+
+  const pair = new Contract(pairAddress, ['function getReserves() public view returns (uint, uint)'], signer);
+  const reserves = await pair.getReserves();
+  // console.log(reserves);
+  // console.log(token0);
+  // console.log(token1);
+
+  // CCD is token1 with USDC here
+  const quote = await router.quote(parseUnits('1'), reserves[1], reserves[0]);
+  console.log('Swap quote: ' + formatUnits(quote));
 
   return {
     factory,
