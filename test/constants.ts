@@ -8,7 +8,7 @@ export const MAX_UINT256 = ethers.constants.MaxUint256;
 export const TEN_POW_18_BN = BigNumber.from(10).pow(18);
 export const ONE_SECOND_MS = 1000;
 
-export const ZERO_BYTES_32 = toBytes32(parseEther('0'));
+// export const ZERO_BYTES_32 = toBytes32(parseEther('0'));
 
 // Contract storage slots for user balances
 // Use to overwrite a users balance to any value for testing
