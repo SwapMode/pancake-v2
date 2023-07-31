@@ -96,7 +96,7 @@ const config: HardhatUserConfig = {
       gas: 500000,
       gasPrice: 100,
     },
-    base_testnet: {
+    base_goerli: {
       url: process.env.BASE_GOERLI_RPC,
       accounts,
       chainId: 84531,

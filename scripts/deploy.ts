@@ -6,22 +6,28 @@ import { keccak256 } from '../test/utils';
 import hasher from '../artifacts/contracts/PancakePair.sol/PancakePair.json';
 
 // Meme dev account
-export const FEE_RECEIVER = '0x03d4C4b1B115c068Ef864De2e21E724a758892A2';
+const DEV_ACCOUNT = '0x03d4C4b1B115c068Ef864De2e21E724a758892A2';
 
-const FACTORY_TESTNET = '0xFDa619b6d20975be80A10332cD39b9a4b0FAa8BB';
-const ROUTER_TESTNET = '0x6F1a2F63Ea06B475EDBf2E6393406058C12A7910';
+export const FEE_RECEIVER = DEV_ACCOUNT;
+const TREASURY = DEV_ACCOUNT;
+const FACTORY_TESTNET = '0xc102505248c36f933934d4B2d7579D962a342eBC';
+const ROUTER_TESTNET = '0x2c797784Ff1c3Da0F9FF80CcbF64dc147e4BBf55';
 
 async function main() {
-  // await ethers.provider.ready;
-  // const chainId = ethers.provider.network.chainId;
-  // const signer = (await ethers.getSigners())[0];
+  // TODO: Briz all the 100% of the swap fees should go to the multisig
+  //
+  await ethers.provider.ready;
+  const signer = (await ethers.getSigners())[0];
+  // const factory = await deployFactory(FEE_RECEIVER, signer);
+  // await factory.setFeeTo(TREASURY);
 
-  //  await deployFactory(FEE_RECEIVER, signer);
-  // const WETH = TOKENS.WETH[chainId];
+  // const factoryLive = await ethers.getContractAt('PancakeFactory', FACTORY_TESTNET, signer);
+  // console.log(await factoryLive.feeTo());
+
+  // const WETH = TOKENS.WETH[ethers.provider.network.chainId];
   // await deployRouter(FACTORY_TESTNET, WETH, signer);
-
-  const hash = keccak256(['bytes'], [hasher.bytecode]);
-  console.log(hash);
+  //
+  // INIT_HASH is on the factory
 }
 
 // We recommend this pattern to be able to use async/await everywhere
