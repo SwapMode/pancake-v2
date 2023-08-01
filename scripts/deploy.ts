@@ -13,7 +13,7 @@ const FACTORY_TESTNET = '0x7C6C367ee607737d4297829cD2EA39eee4C98119';
 const ROUTER_TESTNET = '0x865654Ebe6030686bDe44708597bbb3F289ea7f1';
 
 const FACTORY_MAINNET = '0xFDa619b6d20975be80A10332cD39b9a4b0FAa8BB';
-const ROUTER_MAINNET = '';
+const ROUTER_MAINNET = '0x327Df1E6de05895d2ab08513aaDD9313Fe505d86';
 
 // BASE real treasury '0xAF1823bACd8EDDA3b815180a61F8741fA4aBc6Dd ';
 const TREASURY = '0xAF1823bACd8EDDA3b815180a61F8741fA4aBc6Dd';
@@ -22,8 +22,6 @@ const FACTORY = FACTORY_MAINNET;
 const ROUTER = ROUTER_MAINNET;
 
 async function main() {
-  // TODO: Briz all the 100% of the swap fees should go to the multisig
-  //
   await ethers.provider.ready;
   const signer = (await ethers.getSigners())[0];
 
