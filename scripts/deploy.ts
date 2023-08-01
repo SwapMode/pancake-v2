@@ -12,12 +12,14 @@ const TREASURY_TESTNET = DEV_ACCOUNT;
 const FACTORY_TESTNET = '0x7C6C367ee607737d4297829cD2EA39eee4C98119';
 const ROUTER_TESTNET = '0x865654Ebe6030686bDe44708597bbb3F289ea7f1';
 
-const FACTORY = FACTORY_TESTNET;
-const ROUTER = ROUTER_TESTNET;
+const FACTORY_MAINNET = '0xFDa619b6d20975be80A10332cD39b9a4b0FAa8BB';
+const ROUTER_MAINNET = '';
 
 // BASE real treasury '0xAF1823bACd8EDDA3b815180a61F8741fA4aBc6Dd ';
-const TREASURY = TREASURY_TESTNET;
-const FEE_RECEIVER = TREASURY;
+const TREASURY = '0xAF1823bACd8EDDA3b815180a61F8741fA4aBc6Dd';
+const FEE_RECEIVER = DEV_ACCOUNT;
+const FACTORY = FACTORY_MAINNET;
+const ROUTER = ROUTER_MAINNET;
 
 async function main() {
   // TODO: Briz all the 100% of the swap fees should go to the multisig
@@ -26,13 +28,17 @@ async function main() {
   const signer = (await ethers.getSigners())[0];
 
   // const factory = await deployFactory(FEE_RECEIVER, signer);
+  // Need to set myself as fee setter in constructor
+  // set feeTo treasury
+  // then setFeeToSetter to treasury
   // await factory.setFeeTo(TREASURY);
   // If tx failes
   // const factoryLive = await ethers.getContractAt('PancakeFactory', FACTORY, signer);
-  // console.log(await factoryLive.feeTo());
+  // await factoryLive.setFeeTo(TREASURY);
+  // await factoryLive.setFeeToSetter(TREASURY);
 
-  // const WETH = TOKENS.WETH[ethers.provider.network.chainId];
-  // await deployRouter(FACTORY, WETH, signer);
+  const WETH = TOKENS.WETH[ethers.provider.network.chainId];
+  await deployRouter(FACTORY, WETH, signer);
   //
   // INIT_HASH is on the factory
 }
