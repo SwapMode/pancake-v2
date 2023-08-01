@@ -37,8 +37,8 @@ async function main() {
   // await factoryLive.setFeeTo(TREASURY);
   // await factoryLive.setFeeToSetter(TREASURY);
 
-  const WETH = TOKENS.WETH[ethers.provider.network.chainId];
-  await deployRouter(FACTORY, WETH, signer);
+  // const WETH = TOKENS.WETH[ethers.provider.network.chainId];
+  // await deployRouter(FACTORY, WETH, signer);
   //
   // INIT_HASH is on the factory
 }
