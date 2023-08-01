@@ -1,9 +1,6 @@
 import { ethers } from 'hardhat';
 import { deployFactory, deployRouter } from './utils/deploy.utils';
 import { TOKENS } from './data/token';
-import { keccak256 } from '../test/utils';
-
-import hasher from '../artifacts/contracts/PancakePair.sol/PancakePair.json';
 
 // Meme dev account
 const DEV_ACCOUNT = '0x03d4C4b1B115c068Ef864De2e21E724a758892A2';
@@ -37,8 +34,6 @@ async function main() {
 
   // const WETH = TOKENS.WETH[ethers.provider.network.chainId];
   // await deployRouter(FACTORY, WETH, signer);
-  //
-  // INIT_HASH is on the factory
 }
 
 // We recommend this pattern to be able to use async/await everywhere
