@@ -9,6 +9,7 @@
   },
   "base": {
     "factory": "0xFDa619b6d20975be80A10332cD39b9a4b0FAa8BB",
-    "router": "0x327Df1E6de05895d2ab08513aaDD9313Fe505d86"
+    "router": "0x327Df1E6de05895d2ab08513aaDD9313Fe505d86",
+    "zap": "0xc102505248c36f933934d4B2d7579D962a342eBC"
   }
 }

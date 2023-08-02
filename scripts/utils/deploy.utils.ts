@@ -35,3 +35,13 @@ export async function deployMockToken(name: string, symbol: string, signer) {
   console.log(`${name} deployed at: ` + instance.address);
   return instance;
 }
+
+// constructor(address _WBNBAddress, address _pancakeRouter, uint256 _maxZapReverseRatio)
+export async function deployZap(weth: string, router: string, signer) {
+  const Factory = await ethers.getContractFactory('PancakeZapV1', signer);
+  const _maxZapReverseRatio = 1;
+  const instance = await Factory.deploy(weth, router, _maxZapReverseRatio);
+  await instance.deployed();
+  console.log(`PancakeZapV1 deployed at: ` + instance.address);
+  return instance;
+}

@@ -1,5 +1,5 @@
 import { ethers } from 'hardhat';
-import { deployFactory, deployRouter } from './utils/deploy.utils';
+import { deployFactory, deployRouter, deployZap } from './utils/deploy.utils';
 import { TOKENS } from './data/token';
 
 // Meme dev account
@@ -32,8 +32,10 @@ async function main() {
   // await factoryLive.setFeeTo(TREASURY);
   // await factoryLive.setFeeToSetter(TREASURY);
 
-  // const WETH = TOKENS.WETH[ethers.provider.network.chainId];
+  const WETH = TOKENS.WETH[ethers.provider.network.chainId];
   // await deployRouter(FACTORY, WETH, signer);
+
+  await deployZap(WETH, ROUTER, signer);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

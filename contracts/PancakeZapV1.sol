@@ -18,7 +18,7 @@ import { Babylonian } from "./libraries/Babylonian.sol";
 contract PancakeZapV1 is Ownable, ReentrancyGuard {
     using SafeERC20 for IERC20;
 
-    // Interface for Wrapped BNB (WBNB)
+    // Interface for WETH
     IWETH public WBNB;
 
     // PancakeRouter interface
