@@ -17,6 +17,7 @@ const TREASURY = '0xAF1823bACd8EDDA3b815180a61F8741fA4aBc6Dd';
 const FEE_RECEIVER = DEV_ACCOUNT;
 const FACTORY = FACTORY_MAINNET;
 const ROUTER = ROUTER_MAINNET;
+const ZAP = '0xc102505248c36f933934d4B2d7579D962a342eBC';
 
 async function main() {
   await ethers.provider.ready;
@@ -32,10 +33,10 @@ async function main() {
   // await factoryLive.setFeeTo(TREASURY);
   // await factoryLive.setFeeToSetter(TREASURY);
 
-  const WETH = TOKENS.WETH[ethers.provider.network.chainId];
+  // const WETH = TOKENS.WETH[ethers.provider.network.chainId];
   // await deployRouter(FACTORY, WETH, signer);
 
-  await deployZap(WETH, ROUTER, signer);
+  // await deployZap(WETH, ROUTER, signer);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
