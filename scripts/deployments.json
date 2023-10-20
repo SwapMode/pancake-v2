@@ -1,5 +1,5 @@
 {
-  "base_goerli": {
+  "baseGoerli": {
     "factory": "0xFDa619b6d20975be80A10332cD39b9a4b0FAa8BB",
     "router": "0x6F1a2F63Ea06B475EDBf2E6393406058C12A7910",
     "factoryV2": "0xc102505248c36f933934d4B2d7579D962a342eBC",
@@ -11,5 +11,10 @@
     "factory": "0xFDa619b6d20975be80A10332cD39b9a4b0FAa8BB",
     "router": "0x327Df1E6de05895d2ab08513aaDD9313Fe505d86",
     "zap": "0xc102505248c36f933934d4B2d7579D962a342eBC"
+  },
+  "scroll": {
+    "factory": "0x74a52eb08d699CD8BE1d42dA4B241d526B8a8285",
+    "router": "0x8DFAf055e21B16302DBf00815e5b4d9b6042a4Df",
+    "zap": "0xB687282AD4Fb8897D5Cd41f3C1A54DeB4cc88625"
   }
 }

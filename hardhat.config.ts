@@ -7,11 +7,12 @@ dotenv.config();
 
 const accounts = process.env.DEV_KEY !== undefined ? [process.env.DEV_KEY] : [];
 
-const config: HardhatUserConfig = {
+const config = {
   solidity: {
     compilers: [
       {
         version: '0.8.4',
+        evmVersion: 'london', // TODO: For Scroll only. From their dev docs
         settings: {
           optimizer: {
             enabled: true,
@@ -21,6 +22,7 @@ const config: HardhatUserConfig = {
       },
       {
         version: '0.6.6',
+        evmVersion: 'london', // TODO: For Scroll only. From their dev docs
         settings: {
           optimizer: {
             enabled: true,
@@ -30,6 +32,7 @@ const config: HardhatUserConfig = {
       },
       {
         version: '0.5.16',
+        evmVersion: 'london', // TODO: For Scroll only. From their dev docs
         settings: {
           optimizer: {
             enabled: true,
@@ -39,24 +42,12 @@ const config: HardhatUserConfig = {
       },
       {
         version: '0.4.18',
+        evmVersion: 'london', // TODO: For Scroll only. From their dev docs
         settings: {
           optimizer: {
             enabled: true,
             runs: 99999,
           },
-        },
-      },
-    ],
-  },
-  etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY,
-    customChains: [
-      {
-        network: 'base',
-        chainId: 8453,
-        urls: {
-          apiURL: 'https://api.basescan.org',
-          browserURL: 'https://basescan.org',
         },
       },
     ],
@@ -106,6 +97,40 @@ const config: HardhatUserConfig = {
       accounts,
       chainId: 56,
     },
+    scroll: {
+      url: process.env.SCROLL_RPC,
+      accounts,
+      chainId: 534352,
+    },
+    scrollSepolia: {
+      url: process.env.SCROLL_SEPOLIA_RPC,
+      accounts,
+      chainId: 534351,
+    },
+  },
+  etherscan: {
+    apiKey: {
+      scrollSepolia: 'abc',
+      scroll: process.env.SCROLL_SCAN_API_KEY,
+    },
+    customChains: [
+      {
+        network: 'scrollSepolia',
+        chainId: 534351,
+        urls: {
+          apiURL: 'https://sepolia-blockscout.scroll.io/api',
+          browserURL: 'https://sepolia-blockscout.scroll.io/',
+        },
+      },
+      {
+        network: 'scroll',
+        chainId: 534352,
+        urls: {
+          apiURL: 'https://api.scrollscan.com/api',
+          browserURL: 'https://scrollscan.com/',
+        },
+      },
+    ],
   },
 };
 
