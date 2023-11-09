@@ -2,7 +2,7 @@ import { ethers } from 'hardhat';
 import { deployFactory, deployRouter, deployZap } from './utils/deploy.utils';
 import { TOKENS } from './data/token';
 
-// Meme dev account
+// dev account
 const DEV_ACCOUNT = '0x03d4C4b1B115c068Ef864De2e21E724a758892A2';
 
 const TREASURY = '';
@@ -13,6 +13,8 @@ async function main() {
   const signer = (await ethers.getSigners())[0];
 
   const factory = await deployFactory(FEE_RECEIVER, signer);
+  const b = await ethers.provider.getBlock(await ethers.provider.getBlockNumber());
+  console.log(b);
   // Need to set myself as fee setter in constructor
   // set feeTo treasury
   // then setFeeToSetter to treasury
@@ -22,7 +24,7 @@ async function main() {
   // await factoryLive.setFeeTo(TREASURY);
   // await factoryLive.setFeeToSetter(TREASURY);
 
-  const WETH = '0x5300000000000000000000000000000000000004';
+  const WETH = '0x4200000000000000000000000000000000000006';
   const router = await deployRouter(factory.address, WETH, signer);
   await deployZap(WETH, router.address, signer);
 }

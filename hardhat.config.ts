@@ -12,7 +12,6 @@ const config = {
     compilers: [
       {
         version: '0.8.4',
-        evmVersion: 'london', // TODO: For Scroll only. From their dev docs
         settings: {
           optimizer: {
             enabled: true,
@@ -22,7 +21,6 @@ const config = {
       },
       {
         version: '0.6.6',
-        evmVersion: 'london', // TODO: For Scroll only. From their dev docs
         settings: {
           optimizer: {
             enabled: true,
@@ -32,7 +30,6 @@ const config = {
       },
       {
         version: '0.5.16',
-        evmVersion: 'london', // TODO: For Scroll only. From their dev docs
         settings: {
           optimizer: {
             enabled: true,
@@ -42,7 +39,6 @@ const config = {
       },
       {
         version: '0.4.18',
-        evmVersion: 'london', // TODO: For Scroll only. From their dev docs
         settings: {
           optimizer: {
             enabled: true,
@@ -87,10 +83,12 @@ const config = {
       // gas: 500000,
       // gasPrice: 100,
     },
-    base_goerli: {
+    baseGoerli: {
       url: process.env.BASE_GOERLI_RPC,
       accounts,
       chainId: 84531,
+      gas: 500000,
+      gasPrice: 100,
     },
     bsc: {
       url: process.env.BSC_RPC || '',
