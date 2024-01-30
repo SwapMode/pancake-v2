@@ -2,16 +2,14 @@ import { ethers } from 'hardhat';
 import { deployFactory, deployRouter, deployZap } from './utils/deploy.utils';
 import { TOKENS } from './data/token';
 
-// dev account
+// Dev account
 const DEV_ACCOUNT = '0x03d4C4b1B115c068Ef864De2e21E724a758892A2';
-
-const TREASURY = '';
 const FEE_RECEIVER = DEV_ACCOUNT;
 
 async function main() {
   await ethers.provider.ready;
   const signer = (await ethers.getSigners())[0];
-
+  console.log('FML');
   const factory = await deployFactory(FEE_RECEIVER, signer);
   // const b = await ethers.provider.getBlock(await ethers.provider.getBlockNumber());
   // console.log(b);

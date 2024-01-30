@@ -111,11 +111,11 @@ const config = {
       chainId: 34443,
     },
     modeTestnet: {
-      url: process.env.MODE_TESTNET_RPC,
+      url: 'https://sepolia.mode.network/',
       accounts,
       chainId: 919,
-      gas: 500000,
-      gasPrice: 100,
+      // gas: 500000,
+      // gasPrice: 100,
     },
   },
   etherscan: {

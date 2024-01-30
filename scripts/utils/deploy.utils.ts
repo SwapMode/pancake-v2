@@ -1,8 +1,12 @@
+import { parseUnits } from 'ethers/lib/utils';
 import { ethers } from 'hardhat';
 
 export async function deployFactory(feeReceiver: string, signer) {
   const Factory = await ethers.getContractFactory('PancakeFactory', signer);
-  const instance = await Factory.deploy(feeReceiver);
+  const instance = await Factory.deploy(feeReceiver, {
+    gasLimit: 3000000,
+    gasPrice: parseUnits('20', 'gwei'),
+  });
   await instance.deployed();
 
   console.log('PancakeFactory deployed at: ' + instance.address);
@@ -12,7 +16,10 @@ export async function deployFactory(feeReceiver: string, signer) {
 
 export async function deployRouter(factory: string, weth: string, signer) {
   const Factory = await ethers.getContractFactory('PancakeRouter', signer);
-  const instance = await Factory.deploy(factory, weth);
+  const instance = await Factory.deploy(factory, weth, {
+    gasLimit: 3000000,
+    gasPrice: parseUnits('20', 'gwei'),
+  });
   await instance.deployed();
 
   console.log('PancakeRouter deployed at: ' + instance.address);
