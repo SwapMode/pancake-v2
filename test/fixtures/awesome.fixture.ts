@@ -1,75 +1,33 @@
 import { ethers } from 'hardhat';
-import { FEE_RECEIVER } from '../../scripts/deploy';
-import { deployFactory, deployMockToken, deployRouter, deployToken } from '../../scripts/utils/deploy.utils';
-import { TOKENS } from '../../scripts/data/token';
-import { createPool } from '../../scripts/utils/pool.utils';
-import { formatUnits, parseUnits } from 'ethers/lib/utils';
-import { approveTokens, getBlockTime, getERC20 } from '../utils';
-import { Contract } from 'ethers';
+import { ERC20__factory, PancakePair__factory, PancakeRouter__factory } from '../../typechain-types';
+import { giveTokens } from '../utils';
+import { UNI_V2_LP_BALANCEOF_SLOT } from '../constants';
+import { parseUnits } from 'ethers/lib/utils';
 
 export async function awesomeFixture() {
   await ethers.provider.ready;
 
   const signer = (await ethers.getSigners())[0];
 
-  const factory = await deployFactory(FEE_RECEIVER, signer);
-  const chainId = ethers.provider.network.chainId;
+  const TREASURY = '0xAF1823bACd8EDDA3b815180a61F8741fA4aBc6Dd';
+  const pair = PancakePair__factory.connect('0xE80B4F755417FB4baF4dbd23C029db3F62786523', signer);
+  const router = PancakeRouter__factory.connect('0x327Df1E6de05895d2ab08513aaDD9313Fe505d86', signer);
 
-  const WETH = TOKENS.WETH[chainId];
-  //  const WETH = '0x4200000000000000000000000000000000000006';
-  const router = await deployRouter(factory.address, WETH, signer);
+  const userLPAmount = parseUnits('100');
+  await giveTokens(pair.address, UNI_V2_LP_BALANCEOF_SLOT, signer.address, userLPAmount);
 
-  const mockUsdc = await deployMockToken('USDC', 'USDC', signer);
-  const chiliCheeseDog = await deployToken('ChiliCheeseDogToken', signer);
-
-  console.log('Creating initial pool..');
-  const {
-    token0,
-    token1,
-    pair: pairAddress,
-  } = await createPool(factory.address, chiliCheeseDog.address, mockUsdc.address, signer);
-  console.log('Pair ChiliCheeseDog-USDC created');
-
-  await approveTokens([token0, token1], router.address, signer);
-
-  // address tokenA,
-  // address tokenB,
-  // uint256 amountADesired,
-  // uint256 amountBDesired,
-  // uint256 amountAMin,
-  // uint256 amountBMin
-  // address to,
-  // uint256 deadline
-  console.log('Adding initial liquidity..');
-  await router.addLiquidity(
-    token0,
-    token1,
-    parseUnits('100'),
-    parseUnits('100'),
-    0,
-    0,
-    signer.address,
-    (await getBlockTime(ethers.provider)) + 5
-  );
-  console.log('Initial liquidity added.');
-
-  const pair = new Contract(pairAddress, ['function getReserves() public view returns (uint, uint)'], signer);
-  const reserves = await pair.getReserves();
-  // console.log(reserves);
-  // console.log(token0);
-  // console.log(token1);
-
-  // CCD is token1 with USDC here
-  const quote = await router.quote(parseUnits('1'), reserves[1], reserves[0]);
-  console.log('Swap quote: ' + formatUnits(quote));
+  const WETH = ERC20__factory.connect('0x4200000000000000000000000000000000000006', signer);
+  const BSWAP = ERC20__factory.connect('0x78a087d713Be963Bf307b18F2Ff8122EF9A63ae9', signer);
 
   return {
-    factory,
-    router,
-    chiliCheeseDog,
-    token0,
-    token1,
     pair,
-    mockUsdc,
+    router,
+
+    signer,
+    TREASURY,
+    WETH,
+    BSWAP,
+
+    userLPAmount,
   };
 }

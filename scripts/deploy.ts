@@ -13,8 +13,8 @@ async function main() {
   const signer = (await ethers.getSigners())[0];
 
   const factory = await deployFactory(FEE_RECEIVER, signer);
-  const b = await ethers.provider.getBlock(await ethers.provider.getBlockNumber());
-  console.log(b);
+  // const b = await ethers.provider.getBlock(await ethers.provider.getBlockNumber());
+  // console.log(b);
   // Need to set myself as fee setter in constructor
   // set feeTo treasury
   // then setFeeToSetter to treasury
@@ -24,9 +24,9 @@ async function main() {
   // await factoryLive.setFeeTo(TREASURY);
   // await factoryLive.setFeeToSetter(TREASURY);
 
-  const WETH = '0x4200000000000000000000000000000000000006';
-  const router = await deployRouter(factory.address, WETH, signer);
-  await deployZap(WETH, router.address, signer);
+  // const WETH = '0x4200000000000000000000000000000000000006';
+  // const router = await deployRouter(factory.address, WETH, signer);
+  // await deployZap(WETH, router.address, signer);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

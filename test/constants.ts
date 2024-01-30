@@ -16,5 +16,5 @@ export const ONE_SECOND_MS = 1000;
 export const BUSD_BALANCEOF_SLOT = 1;
 export const USDC_BALANCEOF_SLOT = 1;
 export const WBNB_BALANCEOF_SLOT = 3;
-
+export const UNI_V2_LP_BALANCEOF_SLOT = 1;
 export const BAL_POOL_BALANCEOFSLOT = 0; // WeightedPool instance slot

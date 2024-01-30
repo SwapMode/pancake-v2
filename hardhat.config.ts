@@ -50,10 +50,10 @@ const config = {
   },
   networks: {
     hardhat: {
-      chainId: 84531,
+      chainId: 8453,
       forking: {
-        url: process.env.BASE_GOERLI_RPC,
-        blockNumber: 7769354,
+        url: process.env.BASE_RPC,
+        blockNumber: 9891359, // 1/29 7PM
       },
     },
     arbitrum: {
@@ -104,6 +104,18 @@ const config = {
       url: process.env.SCROLL_SEPOLIA_RPC,
       accounts,
       chainId: 534351,
+    },
+    mode: {
+      url: process.env.MODE_RPC,
+      accounts,
+      chainId: 34443,
+    },
+    modeTestnet: {
+      url: process.env.MODE_TESTNET_RPC,
+      accounts,
+      chainId: 919,
+      gas: 500000,
+      gasPrice: 100,
     },
   },
   etherscan: {

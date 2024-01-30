@@ -9,6 +9,8 @@ import "./interfaces/IERC20.sol";
 import "./interfaces/IPancakeFactory.sol";
 import "./interfaces/IPancakeCallee.sol";
 
+import "hardhat/console.sol";
+
 contract PancakePair is IPancakePair, PancakeERC20 {
     using SafeMath for uint;
     using UQ112x112 for uint224;
@@ -36,17 +38,6 @@ contract PancakePair is IPancakePair, PancakeERC20 {
         unlocked = 1;
     }
 
-    function getReserves() public view returns (uint112 _reserve0, uint112 _reserve1, uint32 _blockTimestampLast) {
-        _reserve0 = reserve0;
-        _reserve1 = reserve1;
-        _blockTimestampLast = blockTimestampLast;
-    }
-
-    function _safeTransfer(address token, address to, uint value) private {
-        (bool success, bytes memory data) = token.call(abi.encodeWithSelector(SELECTOR, to, value));
-        require(success && (data.length == 0 || abi.decode(data, (bool))), "Pancake: TRANSFER_FAILED");
-    }
-
     event Mint(address indexed sender, uint amount0, uint amount1);
     event Burn(address indexed sender, uint amount0, uint amount1, address indexed to);
     event Swap(
@@ -70,22 +61,6 @@ contract PancakePair is IPancakePair, PancakeERC20 {
         token1 = _token1;
     }
 
-    // update reserves and, on the first call per block, price accumulators
-    function _update(uint balance0, uint balance1, uint112 _reserve0, uint112 _reserve1) private {
-        require(balance0 <= uint112(-1) && balance1 <= uint112(-1), "Pancake: OVERFLOW");
-        uint32 blockTimestamp = uint32(block.timestamp % 2 ** 32);
-        uint32 timeElapsed = blockTimestamp - blockTimestampLast; // overflow is desired
-        if (timeElapsed > 0 && _reserve0 != 0 && _reserve1 != 0) {
-            // * never overflows, and + overflow is desired
-            price0CumulativeLast += uint(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed;
-            price1CumulativeLast += uint(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed;
-        }
-        reserve0 = uint112(balance0);
-        reserve1 = uint112(balance1);
-        blockTimestampLast = blockTimestamp;
-        emit Sync(reserve0, reserve1);
-    }
-
     // if fee is on, mint liquidity equivalent to 8/25 of the growth in sqrt(k)
     function _mintFee(uint112 _reserve0, uint112 _reserve1) private returns (bool feeOn) {
         address feeTo = IPancakeFactory(factory).feeTo();
@@ -96,8 +71,8 @@ contract PancakePair is IPancakePair, PancakeERC20 {
                 uint rootK = Math.sqrt(uint(_reserve0).mul(_reserve1));
                 uint rootKLast = Math.sqrt(_kLast);
                 if (rootK > rootKLast) {
-                    uint numerator = totalSupply.mul(rootK.sub(rootKLast)).mul(8);
-                    uint denominator = rootK.mul(17).add(rootKLast.mul(8));
+                    uint numerator = totalSupply.mul(rootK.sub(rootKLast)).mul(20);
+                    uint denominator = rootK.mul(5).add(rootKLast.mul(20));
                     uint liquidity = numerator / denominator;
                     if (liquidity > 0) _mint(feeTo, liquidity);
                 }
@@ -105,6 +80,12 @@ contract PancakePair is IPancakePair, PancakeERC20 {
         } else if (_kLast != 0) {
             kLast = 0;
         }
+    }
+
+    function getReserves() public view returns (uint112 _reserve0, uint112 _reserve1, uint32 _blockTimestampLast) {
+        _reserve0 = reserve0;
+        _reserve1 = reserve1;
+        _blockTimestampLast = blockTimestampLast;
     }
 
     // this low-level function should be called from a contract which performs important safety checks
@@ -180,8 +161,8 @@ contract PancakePair is IPancakePair, PancakeERC20 {
         require(amount0In > 0 || amount1In > 0, "Pancake: INSUFFICIENT_INPUT_AMOUNT");
         {
             // scope for reserve{0,1}Adjusted, avoids stack too deep errors
-            uint balance0Adjusted = (balance0.mul(10000).sub(amount0In.mul(25)));
-            uint balance1Adjusted = (balance1.mul(10000).sub(amount1In.mul(25)));
+            uint balance0Adjusted = (balance0.mul(10000).sub(amount0In.mul(3)));
+            uint balance1Adjusted = (balance1.mul(10000).sub(amount1In.mul(3)));
             require(
                 balance0Adjusted.mul(balance1Adjusted) >= uint(_reserve0).mul(_reserve1).mul(10000 ** 2),
                 "Pancake: K"
@@ -203,5 +184,26 @@ contract PancakePair is IPancakePair, PancakeERC20 {
     // force reserves to match balances
     function sync() external lock {
         _update(IERC20(token0).balanceOf(address(this)), IERC20(token1).balanceOf(address(this)), reserve0, reserve1);
+    }
+
+    // update reserves and, on the first call per block, price accumulators
+    function _update(uint balance0, uint balance1, uint112 _reserve0, uint112 _reserve1) private {
+        require(balance0 <= uint112(-1) && balance1 <= uint112(-1), "Pancake: OVERFLOW");
+        uint32 blockTimestamp = uint32(block.timestamp % 2 ** 32);
+        uint32 timeElapsed = blockTimestamp - blockTimestampLast; // overflow is desired
+        if (timeElapsed > 0 && _reserve0 != 0 && _reserve1 != 0) {
+            // * never overflows, and + overflow is desired
+            price0CumulativeLast += uint(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed;
+            price1CumulativeLast += uint(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed;
+        }
+        reserve0 = uint112(balance0);
+        reserve1 = uint112(balance1);
+        blockTimestampLast = blockTimestamp;
+        emit Sync(reserve0, reserve1);
+    }
+
+    function _safeTransfer(address token, address to, uint value) private {
+        (bool success, bytes memory data) = token.call(abi.encodeWithSelector(SELECTOR, to, value));
+        require(success && (data.length == 0 || abi.decode(data, (bool))), "Pancake: TRANSFER_FAILED");
     }
 }
