@@ -24,6 +24,10 @@ contract PancakeRouter is IPancakeRouter02 {
     constructor(address _factory, address _WETH) public {
         factory = _factory;
         WETH = _WETH;
+
+        // Register under the same SFS NFT
+        IProtocolToken protocolToken = IPancakeFactory(_factory).protocolToken();
+        protocolToken.feeShareContract().assign(protocolToken.feeShareTokenId());
     }
 
     receive() external payable {
