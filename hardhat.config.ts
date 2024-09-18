@@ -66,7 +66,7 @@ const config = {
       accounts,
       chainId: 421613,
     },
-    optimism: {
+    optimisticEthereum: {
       url: `${process.env.OPTIMISM_RPC}`,
       accounts,
       chainId: 10,
@@ -122,6 +122,7 @@ const config = {
     apiKey: {
       scrollSepolia: 'abc',
       scroll: process.env.SCROLL_SCAN_API_KEY,
+      optimisticEthereum: process.env.OPTIMISM_EXPLORER_API_KEY,
     },
     customChains: [
       {
