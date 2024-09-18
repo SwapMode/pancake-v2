@@ -2,7 +2,6 @@
 pragma solidity =0.5.16;
 
 import "./interfaces/IPancakeFactory.sol";
-import "./interfaces/IProtocolToken.sol";
 import "./PancakePair.sol";
 
 contract PancakeFactory is IPancakeFactory {
@@ -11,20 +10,14 @@ contract PancakeFactory is IPancakeFactory {
     address public feeTo;
     address public feeToSetter;
 
-    IProtocolToken public protocolToken;
-
     mapping(address => mapping(address => address)) public getPair;
     address[] public allPairs;
 
     event PairCreated(address indexed token0, address indexed token1, address pair, uint);
 
-    constructor(IProtocolToken _protocolToken) public {
+    constructor() public {
         feeTo = msg.sender;
         feeToSetter = msg.sender;
-
-        // Register under the same SFS NFT
-        _protocolToken.feeShareContract().assign(_protocolToken.feeShareTokenId());
-        protocolToken = _protocolToken;
     }
 
     function allPairsLength() external view returns (uint) {

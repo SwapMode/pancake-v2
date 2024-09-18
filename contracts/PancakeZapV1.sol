@@ -10,7 +10,6 @@ import { IPancakePair } from "./interfaces/IPancakePair.sol";
 import { IPancakeFactory } from "./interfaces/IPancakeFactory.sol";
 import { IPancakeRouter02 } from "./interfaces/IPancakeRouter02.sol";
 import { IWETH } from "./interfaces/IWETH.sol";
-import { IProtocolToken } from "./interfaces/IProtocolToken.sol";
 import { Babylonian } from "./libraries/Babylonian.sol";
 
 /*
@@ -95,10 +94,6 @@ contract PancakeZapV1 is Ownable, ReentrancyGuard {
         pancakeRouterAddress = _pancakeRouter;
         pancakeRouter = IPancakeRouter02(_pancakeRouter);
         maxZapReverseRatio = _maxZapReverseRatio;
-
-        // Register under the same SFS NFT
-        IProtocolToken protocolToken = IPancakeFactory(IPancakeRouter02(_pancakeRouter).factory()).protocolToken();
-        protocolToken.feeShareContract().assign(protocolToken.feeShareTokenId());
     }
 
     /*

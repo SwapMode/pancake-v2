@@ -8,7 +8,6 @@ import "./libraries/UQ112x112.sol";
 import "./interfaces/IERC20.sol";
 import "./interfaces/IPancakeFactory.sol";
 import "./interfaces/IPancakeCallee.sol";
-import "./interfaces/IProtocolToken.sol";
 
 contract PancakePair is IPancakePair, PancakeERC20 {
     using SafeMath for uint;
@@ -58,10 +57,6 @@ contract PancakePair is IPancakePair, PancakeERC20 {
         require(msg.sender == factory, "Pancake: FORBIDDEN"); // sufficient check
         token0 = _token0;
         token1 = _token1;
-
-        // Register under the same SFS NFT
-        IProtocolToken protocolToken = IPancakeFactory(factory).protocolToken();
-        protocolToken.feeShareContract().assign(protocolToken.feeShareTokenId());
     }
 
     // if fee is on, mint liquidity equivalent to 8/25 of the growth in sqrt(k)

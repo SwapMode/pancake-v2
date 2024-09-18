@@ -5,11 +5,11 @@ import { Wallet } from 'ethers';
 
 const OP_STACKS = [10, 8453, 34443];
 
-export async function deployFactory(feeReceiver: string, signer) {
+export async function deployFactory(signer) {
   const Factory = await ethers.getContractFactory('PancakeFactory', signer);
   // 0.001324158
 
-  const instance = await Factory.deploy(feeReceiver, {
+  const instance = await Factory.deploy({
     gasLimit: 5500000,
     // gasPrice: parseUnits('0.0004', 'gwei'),
     // maxPriorityFeePerGas: parseUnits('0.00003', 'gwei'),
@@ -25,8 +25,8 @@ export async function deployFactory(feeReceiver: string, signer) {
 export async function deployRouter(factory: string, weth: string, signer) {
   const Factory = await ethers.getContractFactory('PancakeRouter', signer);
   const instance = await Factory.deploy(factory, weth, {
-    gasLimit: 3000000,
-    gasPrice: parseUnits('20', 'gwei'),
+    gasLimit: 5500000,
+    // gasPrice: parseUnits('20', 'gwei'),
   });
   await instance.deployed();
 
