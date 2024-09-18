@@ -1,11 +1,19 @@
 import { parseUnits } from 'ethers/lib/utils';
 import { ethers } from 'hardhat';
+import * as optimismSDK from '@eth-optimism/sdk';
+import { Wallet } from 'ethers';
+
+const OP_STACKS = [10, 8453, 34443];
 
 export async function deployFactory(feeReceiver: string, signer) {
   const Factory = await ethers.getContractFactory('PancakeFactory', signer);
+  // 0.001324158
+
   const instance = await Factory.deploy(feeReceiver, {
-    gasLimit: 3000000,
-    gasPrice: parseUnits('20', 'gwei'),
+    gasLimit: 5500000,
+    // gasPrice: parseUnits('0.0004', 'gwei'),
+    // maxPriorityFeePerGas: parseUnits('0.00003', 'gwei'),
+    // maxFeePerGas: parseUnits('0.000438925', 'gwei'),
   });
   await instance.deployed();
 
@@ -51,4 +59,32 @@ export async function deployZap(weth: string, router: string, signer) {
   await instance.deployed();
   console.log(`PancakeZapV1 deployed at: ` + instance.address);
   return instance;
+}
+
+export function getRpcUrl(chainId: number) {
+  return process.env[`RPC_${chainId}`];
+}
+
+export function getEnvDevKey(chainId: number) {
+  return process.env[`DEV_KEY_${chainId}`];
+}
+
+export function getRpcProvider(url: string, chainId: number) {
+  return new ethers.providers.JsonRpcProvider(url, {
+    name: '',
+    chainId,
+  });
+}
+
+export function getEnvRpcProvider(chainId: number) {
+  const rpc = getRpcUrl(chainId);
+
+  if (OP_STACKS.includes(chainId)) {
+    return optimismSDK.asL2Provider(getRpcProvider(rpc, chainId));
+  }
+  return getRpcProvider(rpc, chainId);
+}
+
+export function getWalletSigner(chainId: number) {
+  return new Wallet(getEnvDevKey(chainId)).connect(getEnvRpcProvider(chainId));
 }

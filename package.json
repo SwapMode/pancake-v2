@@ -9,6 +9,9 @@
     "deploy": "npx hardhat run ./scripts/deploy.ts --network"
   },
   "devDependencies": {
+    "@eth-optimism/contracts-ts": "^0.15.0",
+    "@eth-optimism/fee-estimation": "^0.15.2",
+    "@eth-optimism/sdk": "^3.1.1",
     "@ethersproject/abi": "^5.7.0",
     "@ethersproject/providers": "^5.7.0",
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.0",
