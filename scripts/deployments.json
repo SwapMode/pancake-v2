@@ -15,8 +15,8 @@
     "zap": "0xB687282AD4Fb8897D5Cd41f3C1A54DeB4cc88625"
   },
   "optimism": {
-    "factory": "0xa26655BaB784C9BD9DAadAAFF2a05a93484bF9C7",
-    "router": "0xCe2521c2D78a6d217AFDbC832c4ba1B8bC42b6af",
-    "zap": "0xE91E532044d949556e31890ED56dc5a703267639"
+    "factory": "0x22505cb4d5d10b2c848a9d75c57ea72a66066d8c",
+    "router": "0x6D0829dABd4B41e9a999283a11DDa1516F591e86",
+    "zap": "0xbA38040Af245ca5829B32AF4D4C9be7dB26d8c15"
   }
 }
