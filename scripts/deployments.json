@@ -18,5 +18,10 @@
     "factory": "0x22505cb4d5d10b2c848a9d75c57ea72a66066d8c",
     "router": "0x6D0829dABd4B41e9a999283a11DDa1516F591e86",
     "zap": "0xbA38040Af245ca5829B32AF4D4C9be7dB26d8c15"
+  },
+  "soneiumTestnet": {
+    "factory": "0x82995F682dc38b17B99079Cf63DF8d263C6D5eE0",
+    "router": "0x74a52eb08d699CD8BE1d42dA4B241d526B8a8285",
+    "zap": "0x8DFAf055e21B16302DBf00815e5b4d9b6042a4Df"
   }
 }

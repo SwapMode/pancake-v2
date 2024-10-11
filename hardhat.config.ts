@@ -117,6 +117,16 @@ const config = {
       // gas: 500000,
       // gasPrice: 100,
     },
+    sonicTestnet: {
+      url: process.env.SONIC_TESTNET_RPC,
+      accounts,
+      chainId: 64165,
+    },
+    soneiumTestnet: {
+      url: process.env.SONEIUM_TESTNET_RPC || '',
+      accounts,
+      chainId: 1946,
+    },
   },
   etherscan: {
     apiKey: {

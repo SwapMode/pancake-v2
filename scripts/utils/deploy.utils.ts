@@ -3,7 +3,7 @@ import { ethers } from 'hardhat';
 import * as optimismSDK from '@eth-optimism/sdk';
 import { Wallet } from 'ethers';
 
-const OP_STACKS = [10, 8453, 34443];
+const OP_STACKS = [10, 8453, 34443, 1946];
 
 export async function deployFactory(signer) {
   const Factory = await ethers.getContractFactory('PancakeFactory', signer);
