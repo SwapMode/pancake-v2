@@ -1,17 +1,17 @@
 import { ethers } from 'hardhat';
 import { deployFactory, deployRouter, deployZap, getWalletSigner } from './utils/deploy.utils';
 
-const WETH = '0x4200000000000000000000000000000000000006';
-const FACTORY = '0x82995F682dc38b17B99079Cf63DF8d263C6D5eE0';
-const ROUTER = '0x74a52eb08d699CD8BE1d42dA4B241d526B8a8285';
-const ZAP = '0x8DFAf055e21B16302DBf00815e5b4d9b6042a4Df';
+const WETH = '0x591E027153ED4e536275984e1b7573367e11dac4';
+const FACTORY = '0x8DFAf055e21B16302DBf00815e5b4d9b6042a4Df';
+const ROUTER = '0xB687282AD4Fb8897D5Cd41f3C1A54DeB4cc88625';
+const ZAP = '';
 
 async function main() {
   await ethers.provider.ready;
-  const signer = getWalletSigner(1946);
+  const signer = getWalletSigner(64165);
 
-  await deployFactory(signer);
-  await deployRouter(FACTORY, WETH, signer);
+  // await deployFactory(signer);
+  // await deployRouter(FACTORY, WETH, signer);
   await deployZap(WETH, ROUTER, signer);
   //
   // Need to set dev account as fee setter in constructor
